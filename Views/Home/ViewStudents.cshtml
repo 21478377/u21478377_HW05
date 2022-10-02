@@ -1,0 +1,54 @@
+﻿@model List<hw5.Models.Students>
+@using hw5.Models;
+
+
+
+<!--populate list class-->
+@{ @foreach (Students student in Model)
+{
+    List<SelectListItem> classType = new List<SelectListItem>();
+    classType.Add(new SelectListItem
+    { Text= @student.Class }) ;
+}
+}
+<div>
+    @using (Html.BeginForm("ComplexSearch", "Home", FormMethod.Post))
+    {
+        <h1>Students</h1>
+
+        @Html.TextBox("studentName", null, new { @class = "form-control", type = "text" });
+
+        @Html.DropDownList("classS", new SelectList(classType, "Value", "Text"), new { @class = "form-control", required = "required" });
+        <br />
+        <button type="submit" class="btn btn-success">Search</button>
+        <button type="submit" class="btn btn-danger">Clear</button>
+    }
+</div>
+<div class="col-md-12">
+    <table class="table">
+        <!--headings-->
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Class</th>
+                <th>Borrow Book </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Students student in Model)
+            {
+                <tr>
+                    <td>@student.studentId</td>
+                    <td>@student.name</td>
+                    <td>@student.surname</td>
+                    <td>@student.Class</td>
+                    <td> <button type="submit" class="btn btn-primary">Borrow Book</button></td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

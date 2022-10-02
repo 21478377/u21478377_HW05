@@ -1,0 +1,115 @@
+﻿
+@using hw5.Models;
+
+
+<!--<form id="form" method="get" asp-action="Index" asp-controller="Index">
+    <div class="form-group">
+        <!--search via book name-->
+<!--<input type="text" name="Search" value="@ViewData["BookN"] " placeholder="Search Book Name" />-->
+@*<select name="type value=@ViewData["TypeN"]">
+        <option value=" ">Science Fiction </option>
+        <option value=" ">Satire</option>
+        <option value=" ">Drama </option>
+        <option value=" "> Action and Adventure</option>
+        <option value=" ">Romance </option>
+        <option value=" ">Mystery </option>
+        <option value=" ">Horror </option>
+        <option value=" "> Health</option>
+        <option value=" ">Guide </option>
+        <option value=" ">Diaries </option>
+        <option value=" ">Comics </option>
+        <option value=" ">Diaries </option>
+        <option value=" ">Journals </option>
+        <option value=" ">Biographies </option>
+        <option value=" ">Fantasy </option>
+        <option value=" ">History </option>
+        <option value=" ">Science </option>
+        <option value=" ">Art </option>
+    </select>-->*@
+<div>
+    <!--populate lists-->
+    @{
+        @foreach (Authors author in Model)
+        {
+            List<SelectListItem> authorType = new List<SelectListItem>();
+            authorType.Add(new SelectListItem
+            { Text = @author.surname });
+        }
+        @foreach (Types type in Model)
+        {
+            List<SelectListItem> bookType = new List<SelectListItem>();
+            bookType.Add(new SelectListItem
+            { Text = @type.name });
+        }
+    }
+
+    <!--buttons-->
+    <input type="submit" value="search" class="btn btn-success" />
+    <input type="button" onclick="Clear()" value="Clear" class="btn btn-danger" />
+
+    @using (Html.BeginForm("multi", "Home", FormMethod.Post))
+    {
+        <h1>Books</h1>
+
+        @Html.TextBox("bookName", null, new { @class = "form-control", type = "text" });
+
+
+        @Html.DropDownList("classS", new SelectList(bookType, "Value", "Text"), new { @class = "form-control" });
+        @Html.DropDownList("classS", new SelectList(authorType, "Value", "Text"), new { @class = "form-control" });
+        <br />
+        <button type="submit" class="btn btn-success">Search</button>
+        <button type="submit" class="btn btn-danger">Clear</button>
+    }
+</div>
+
+
+<!--table data-->
+<div class="col-md-12">
+    <table class="table">
+        <!--headings-->
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col"> Author</th>
+                <th scope="col">Type </th>
+                <th scope="col">Page Count </th>
+                <th scope="col">Points</th>
+                <th scope="col">Status </th>
+                <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var IndexView item in Model)
+                {
+                <tr>
+                    <td>@item.Summary.bookId</td>
+                    <td> @item.Summary.name</td>
+                    <td> @item.Title.surname</td>
+                    <td> @item.Genre.name</td>
+                    <td> @item.Summary.pagecount</td>
+                    <td> @item.Summary.point</td>
+                    <td>
+                    </td>
+                    @ViewData["Status"]
+                    <td>
+                        @Html.ActionLink("View", "BookDetails", "Home", new { ID = @item.ID }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    @*<script src="~/js/"></script>
+    <script type="text/javascript">
+        //for table
+        $(document).ready(function () { GetBookData(); });
+        function GetBookData() { $.get('/Home/IndexView', {}, function (data) { var tbl = $("#tbl"); $each(data, function (index, item) { var tr = $("<tr></tr>"); }) }) }
+    </script>*@
+
+
+
+
+</div>

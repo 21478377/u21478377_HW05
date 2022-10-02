@@ -1,0 +1,45 @@
+﻿
+@model List<BookView>
+
+
+<!--book viewed-->
+<div>
+
+</div>
+
+<!--borrows count-->
+<div>
+    # Borrows- @ViewData["NoOut"]
+    @Html.ActionLink("View assignments", "ViewStudents", "Home", new { @class = "btn btn-primary" })
+</div>
+
+<!--book table-->
+<div class="col-md-12">
+    <table class="table">
+        <!--headings-->
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Taken Date</th>
+                <th scope="col"> Brought Date</th>
+                <th scope="col">Borrowed by </th>
+            </tr>
+        </thead>
+      <tbody>
+          @foreach (var b in @Model)
+          {
+              <tr>
+                  <td>@b.ID</td>
+                  <td>@b.Take.takenDate</td>
+                  <td>@b.Take.broughtDate</td>
+                  <td>@b.Done.name
+                  @b.Done.surname</td>
+              </tr>
+            }
+      </tbody>
+
+    </table>
+</div>
+
+       
+    
